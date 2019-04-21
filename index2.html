@@ -10,6 +10,7 @@
 // $.fn 指的是 jQuery 的原型对象 是 jQuery.prototype 的简写
 // console.log($());
 
+console.log('***浅复制***');
 console.log(
   $.extend({
     class: 1,
@@ -26,11 +27,30 @@ $.extend({
   }
 });
 console.log(jQuery.work());
-//
-// $.fn.extend({
-//   sex: '男',
-// });
-// console.log($().sex);
+
+$.fn.extend({
+  sex: '男',
+});
+console.log($().sex);
+
+
+console.log('***深拷贝***');
+
+debugger;
+const c = $.extend(true, {
+  class: 1,
+}, {
+  name: 'ye',
+  list: {
+    age: 30
+  }
+}, {
+  list: {
+    sex: 'boy',
+  }
+});
+console.log(c);
+
 </script>
 </body>
 </html>
