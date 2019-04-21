@@ -6,6 +6,7 @@
     callbacks: function (options) {
       options = typeof options === 'string' ? (optionsCache[options] || createOptions(options)) : {};
       var list = [];
+      // testting 标记fire是否已经执行过一次
       var index, length, testting, memory, start, starts;
 
       var fire = function (data) {

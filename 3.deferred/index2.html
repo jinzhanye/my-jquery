@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script src="my-jquery.1.0.2.js"></script>
+<script>
+const wait = () => {
+  const def = $.Deferred();
+  const test = function () {
+    console.log('HelloWorld');
+    def.resolve('hi');
+  };
+  setTimeout(test, 1000);
+  return def;
+};
+
+$.when(wait())
+  .done((name) => {
+    console.log(name);
+    console.log('execute success');
+  })
+  .fail(() => {
+    console.log('execute fail');
+  });
+</script>
+</body>
+</html>
