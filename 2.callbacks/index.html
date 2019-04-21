@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>callbacks</title>
+</head>
+<body>
+<script src="underscore.js"></script>
+<script>
+var cb = _.callbacks("once stopOnfalse memory");
+cb.add(function () {
+  console.log('1');
+  return false;
+}, function () {
+  console.log('2');
+});
+
+cb.fire();
+
+cb.add(function () {
+  console.log('3');
+});
+cb.fire();
+</script>
+</body>
+</html>

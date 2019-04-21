@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="../jquery.js"></script>
+<script>
+var defer = jQuery.Deferred();
+
+defer.done(function(a,b){
+  console.log("a = " + a+"b = " + b);
+  return a * b;
+
+}).done(function( result ) {
+  console.log("result = " + result);
+
+}).then(function( a, b ) {
+  console.log("a = " + a+"b = " + b);
+  return a * b;
+
+}).done(function( result ) {
+  console.log("result = " + result);
+
+}).then(function( a, b ) {
+  console.log("a = " + a+"b = " + b);
+  return a * b;
+
+}).done(function( result ) {
+  console.log("result = " + result);
+});
+
+defer.resolve( 2, 3 );
+</script>
+</body>
+</html>
