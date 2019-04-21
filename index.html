@@ -1,14 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
 <body>
+<div id="test"></div>
 <script src="jquery.js"></script>
 <script>
-console.log(jQuery === $);
-console.log($.fn);
+
+console.log(jQuery('#test'));
+
+const a = {
+  name: 'ye',
+  list: {
+    age: 30
+  }
+};
+
+const b = {
+  list: {
+    sex: 'boy',
+  }
+};
+
+const c = $.extend(true, {}, a, b);
+console.log(c);
+
+const obj = $.extend({}, {
+  name: 'ye',
+});
+console.log(obj);
+
+$.extend({
+  work() {
+    return 'work';
+  }
+});
+console.log(jQuery.work());
+
+$.fn.extend({
+  sex: '男',
+});
+console.log($().sex);
 </script>
 </body>
 </html>

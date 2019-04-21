@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>my-jq</title>
+</head>
+<body>
+<script src="my-jquery.js"></script>
+<script>
+// $.fn 指的是 jQuery 的原型对象 是 jQuery.prototype 的简写
+// console.log($());
+
+console.log(
+  $.extend({
+    class: 1,
+  }, {
+    name: 'hello'
+  }, {
+    age: 11,
+  }));
+
+
+$.extend({
+  work() {
+    return 'work';
+  }
+});
+console.log(jQuery.work());
+//
+// $.fn.extend({
+//   sex: '男',
+// });
+// console.log($().sex);
+</script>
+</body>
+</html>
