@@ -32,10 +32,44 @@
     return ret;
   };
 
-  _.map = function (arr) {
-    return arr.map(function (item) {
-      return item + ' mapped';
-    });
+  _.map = function (obj, iteratee, context) {
+    var iteratee = cb(iteratee, context);
+    var keys = !_.isArray(obj) && Object.keys(obj);
+    var length = (keys || obj).length;
+    var result = Array(length);
+    for (var index = 0; index < length; index++) {
+      var currentKey = keys ? keys[index] : index;
+      result[index] = iteratee(obj[currentKey], index, obj);
+    }
+
+    return result;
+  };
+
+  var cb = function (iteratee, context, count) {
+    if (iteratee == null) {
+      return _.identity;
+    }
+
+    if (_.isFunction(iteratee)) {
+      return optimizeCb(iteratee, context, count);
+    }
+  };
+
+  var optimizeCb = function (func, context, count) {
+    if (context == void 0) {
+      return func;
+    }
+
+    switch (count == null ? 3 : count) {
+      case 1:
+        return function (value) {
+          return func.call(context, value);
+        }
+      case 3:
+        return function (value, index, obj) {
+          return func.call(context, value, index, obj);
+        }
+    }
   };
 
   _.chain = function (obj) {
@@ -57,6 +91,10 @@
     return result;
   }
 
+  _.identity = function (value) {
+    return value;
+  };
+
   _.each = function (target, callback) {
     var key, i = 0;
     if (_.isArray(target)) {
@@ -70,6 +108,11 @@
       }
     }
   };
+
+  _.isFunction = function (array) {
+    return toString.call(array) === "[object Function]";
+  };
+
 
   _.isArray = function (array) {
     return toString.call(array) === "[object Array]";

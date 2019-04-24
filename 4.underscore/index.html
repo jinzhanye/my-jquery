@@ -13,7 +13,9 @@ console.log(_([1, 2, 3, 4, 5, 4, 5, 6, "a", "A"])
   .unique((value) => {
     return typeof value === "string" ? value.toLowerCase() : value;
   })
-  .map()
+  .map(function (value) {
+    return `${value} mapped`
+  }, { str: 'I am context' })
   .value());
 </script>
 </body>
