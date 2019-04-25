@@ -95,6 +95,27 @@
     return value;
   };
 
+  _.restArguments = function (func) {
+    // func.length 获取函数参数长度
+    var startIndex = func.length - 1;
+    return function () {
+      var length = arguments.length - startIndex,// rest 数组长度
+        rest = Array(length),
+        index = 0;
+      // 构造rest数组
+      for(;index < length; index++){
+        rest[index] = arguments[index + startIndex];
+      }
+      // 构造非rest参数
+      var args = Array(startIndex + 1);
+      for(index = 0; index < startIndex; index++){
+        args[index] = arguments[index];
+      }
+      args[startIndex] = rest;
+      return func.apply(this, args);
+    };
+  };
+
   _.each = function (target, callback) {
     var key, i = 0;
     if (_.isArray(target)) {

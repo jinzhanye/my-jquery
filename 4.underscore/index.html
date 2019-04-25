@@ -8,15 +8,29 @@
 <!--<script src="../underscore.js"></script>-->
 <script src="underscore.js"></script>
 <script>
-console.log(_([1, 2, 3, 4, 5, 4, 5, 6, "a", "A"])
-  .chain()
-  .unique((value) => {
-    return typeof value === "string" ? value.toLowerCase() : value;
-  })
-  .map(function (value) {
-    return `${value} mapped`
-  }, { str: 'I am context' })
-  .value());
+function chainDemo() {
+  console.log(_([1, 2, 3, 4, 5, 4, 5, 6, "a", "A"])
+    .chain()
+    .unique((value) => {
+      return typeof value === "string" ? value.toLowerCase() : value;
+    })
+    .map(function (value) {
+      return `${value} mapped`
+    }, { str: 'I am context' })
+    .value());
+}
+
+function restDemo() {
+  function test(argA, argA, rest) {
+    console.log(rest); // [3,4,5,6]
+  }
+
+  // 包装器
+  var wrapperTest = _.restArguments(test);
+  wrapperTest(1, 2, 3, 4, 5, 6);
+}
+
+restDemo();
 </script>
 </body>
 </html>
