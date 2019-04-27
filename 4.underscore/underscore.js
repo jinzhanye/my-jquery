@@ -64,10 +64,14 @@
       case 1:
         return function (value) {
           return func.call(context, value);
-        }
+        };
       case 3:
         return function (value, index, obj) {
           return func.call(context, value, index, obj);
+        };
+      case 4:
+        return function (memo, value, index, obj) {
+          return func.call(context, memo, value, index, obj);
         }
     }
   };
@@ -103,17 +107,56 @@
         rest = Array(length),
         index = 0;
       // 构造rest数组
-      for(;index < length; index++){
+      for (; index < length; index++) {
         rest[index] = arguments[index + startIndex];
       }
       // 构造非rest参数
       var args = Array(startIndex + 1);
-      for(index = 0; index < startIndex; index++){
+      for (index = 0; index < startIndex; index++) {
         args[index] = arguments[index];
       }
       args[startIndex] = rest;
       return func.apply(this, args);
     };
+  };
+
+  var createReduce = function (dir) {
+    var reduce = function (obj, iteratee, memo, init) {
+      var keys = !_.isArray(obj) && Object.keys(obj),
+        length = (keys || obj).length,
+        index = dir > 0 ? 0 : length - 1;
+
+      if (!init) {
+        // 默认初始值是第一个 || 最后一个元素
+        memo = obj[keys ? keys[index] : index];
+        index += dir;
+      }
+
+      for (; index >= 0 && index < length; index += dir) {
+        var currentKey = keys ? keys[index] : index;
+        memo = iteratee(memo, obj[currentKey], currentKey, obj);
+      }
+      return memo;
+    };
+
+    return function (obj, iteratee, memo, context) {
+      // 如果传参大于等于3个表明reduce初始值也传了进来
+      var init = arguments.length >= 3;
+      return reduce(obj, optimizeCb(iteratee, context, 4), memo, init);
+    }
+  };
+  _.reduce = createReduce(1);
+  _.reduceRight = createReduce(-1);
+
+  _.filter = _.select = function (obj, predicate, context) {
+    var results = [];
+    predicate = cb(predicate, context);
+    _.each(obj, function (value, index, list) {
+      if (predicate(value, index, list)) {
+        results.push(value);
+      }
+    });
+    return results;
   };
 
   _.each = function (target, callback) {

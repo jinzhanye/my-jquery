@@ -30,7 +30,19 @@ function restDemo() {
   wrapperTest(1, 2, 3, 4, 5, 6);
 }
 
-restDemo();
+function reduceDemo() {
+  // 16
+  console.log(_.reduce([1, 2, 3], (acc, cur, idx, arr) => {
+    return acc + cur;
+  }, 10));
+
+  // 0
+  console.log(_.reduceRight([1, 2, 3], (acc, cur, idx, arr) => {
+    return acc - cur;
+  }));
+}
+
+reduceDemo();
 </script>
 </body>
 </html>
