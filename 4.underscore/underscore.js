@@ -159,6 +159,44 @@
     return results;
   };
 
+  // 返回一个 [min, max] 范围内的任意整数
+  _.random = function (min, max) {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    // 3-6  3    0-1*4  !0 !4
+    return min + Math.floor(Math.random() * (max - min + 1));
+  };
+
+  _.clone = function (obj) {
+    // _.extend 未定义
+    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  };
+
+  _.shuffle = function (array) {
+    // Infinity 比 array.length 优雅
+    return _.sample(array, Infinity);
+  };
+  _.sample = function (array, n) {
+    if (n == null) {
+      // 随机返回一个元素
+      return array[_.random(array.length - 1)];
+    }
+    var sample = _.clone(array);
+    var length = sample.length;
+    var last = length - 1;
+    n = Math.max(Math.min(n, length), 0);
+    // 洗牌算法
+    for (var index = 0; index < n; index++) {
+      var rand = _.random(index, last);
+      var temp = sample[index];
+      sample[index] = sample[rand];
+      sample[rand] = temp;
+    }
+    return sample.slice(0, n);
+  };
+
   _.each = function (target, callback) {
     var key, i = 0;
     if (_.isArray(target)) {
@@ -173,13 +211,51 @@
     }
   };
 
-  _.isFunction = function (array) {
-    return toString.call(array) === "[object Function]";
+  _.isFunction = function (fn) {
+    return toString.call(fn) === "[object Function]";
   };
-
 
   _.isArray = function (array) {
     return toString.call(array) === "[object Array]";
+  };
+
+  _.isBoolean = function (b) {
+    return toString.call(b) === "[object Boolean]";
+  };
+
+  _.isString = function (b) {
+    return toString.call(b) === "[object String]";
+  };
+
+  _.uniq = _.unique = function (array, isSorted, iteratee, context) {
+    // 没有传入 isSorted 参数
+    if (!_.isBoolean(isSorted)) {
+      context = iteratee;
+      iteratee = isSorted;
+      isSorted = false;
+    }
+
+    if (iteratee != null) {
+      iteratee = cb(iteratee, context);
+    }
+
+    var result = [];
+    // 用来过滤重复值
+    var seen;
+
+    for (var i = 0; i < array.length; i++) {
+      var computed = iteratee ? iteratee(array[i], i, array) : array[i];
+      if (isSorted) {
+        if (!i || seen !== computed) {
+          result.push(computed);
+        }
+        seen = computed;
+      } else if (result.indexOf(computed) === -1) {
+        result.push(computed);
+      }
+    }
+
+    return result;
   };
 
   _.mixin = function (obj) {

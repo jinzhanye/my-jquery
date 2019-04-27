@@ -42,7 +42,16 @@ function reduceDemo() {
   }));
 }
 
-reduceDemo();
+// reduceDemo();
+
+function uniqDemo() {
+  console.log(_.unique([1, 2, 3, 4, 4, 5, 6], true));
+  console.log(_.unique([1, 4, 2, 3, 'a', 'A', 4, 5, 6], function (item) {
+    return _.isString(item) ? item.toLocaleLowerCase() : item;
+  }));
+}
+
+uniqDemo();
 </script>
 </body>
 </html>
